@@ -1,0 +1,79 @@
+\chapter{Web Development}
+This covers dashboards and sharing data.
+\section{Dictionary}
+There are a lot of different technologies one might use.
+
+\subsection{SASS}
+
+``Syntactically Awesome Style Sheets'', \href{http://sass-lang.com/}{SASS} is an
+extension of CSS3 that allows for things like variables and inheritance so that
+you can write sane CSS.
+
+\section{Cookbook}
+
+\subsection{Installing NodeJS}\label{subsec:install_nodejs}
+Either use the installer from \href{http://nodejs.org/}{the website}, or (on Ubuntu), run
+\begin{lstlisting}[style=bash]
+$ sudo apt-get install python-software-properties
+$ sudo add-apt-repository ppa:chris-lea/node.js
+$ sudo apt-get update
+$ sudo apt-get install nodejs
+\end{lstlisting}
+
+\subsection{Using npm}
+NodeJS uses \href{https://www.npmjs.org/}{npm} as its package manager
+(hence, NodePackageManager). You might like a package manager because
+different projects you work on depend on different versions of the same
+packages.  If you want to install a package called \code{express} for a project,
+you can do so with \code{npm install express}.  If you want all projects you
+run on your computer to be able to use express, then add a \code{-g} flag
+to install globally: \code{node install -g express}. 
+
+\subsection{Starting an AngularJS App}
+
+First, install nodejs (\autoref{subsec:install_nodejs}).
+We use \href{http://yeoman.io/}{Yeoman} to scaffold an
+\href{http://angularjs.org/}{AngularJS} app, and manage dependencies with 
+\href{http://bower.io/}{Bower}.  We 
+\begin{enumerate}
+\item Install these tools with npm,
+\item install a Yeoman generator that actually scaffolds the angular app,
+\item make a directory,
+\item scaffold the app,
+\item create a git repo
+\end{enumerate}
+
+\begin{lstlisting}[style=bash]
+$ npm install -g yo grunt-cli bower
+npm http GET https://registry.npmjs.org/yo
+npm http GET https://registry.npmjs.org/grunt-cli
+npm http GET https://registry.npmjs.org/bower
+
+(this continues)
+
+$ npm install -g generator-angular
+npm http GET https://registry.npmjs.org/generator-angular
+
+(more noise)
+
+$ mkdir sample_project
+$ cd sample_project
+$ yo angular
+(interactive stuff, noise)
+$ git init
+Initialized empty Git repository in /Users/colinc/sample_project/.git/
+$ git add --all
+$ git commit -am "Initialized an empty angular repo"
+
+(noise)
+\end{lstlisting}
+
+Now you have a bunch of folders -- 
+\begin{description}
+\item[\code{Gruntfile.js}] We use Grunt to manage packages (Grunt: the package
+manager for the web), and the Gruntfile is where we set up how Grunt does its
+job.
+\item[\code{app/}] This is the folder where our app actually lives.  Being
+javascript, it is a static app, so you could just drop in here and serve
+it with a Python SimpleHTTPServer (\autoref{subsec:pyhttpserver}).  
+\end{description}

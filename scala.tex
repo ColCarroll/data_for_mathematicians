@@ -1,0 +1,78 @@
+\chapter{Scala}
+
+\section{Recipes}
+\subsection{Write a (json) string to file}
+
+  We create a test \code{Map} named \code{x}, convert it to JSON, and then write it to
+  a file called \code{test.json}.  This will work for any \code{String}, but JSON is 
+  good to know how to deal with.  We use the 
+  \href{https://github.com/spray/spray-json}{spray-json} library to handle JSON
+  objects, and fall back to a Java library to write to file.  Here is a session
+  in the REPL:
+  \begin{lstlisting}[style=bash]
+  Welcome to Scala version 2.9.3 (Java HotSpot(TM) 64-Bit Server VM, Java 1.6.0_65).
+  Type in expressions to have them evaluated.
+  Type :help for more information.
+
+  scala> val x = Map("1" -> "a", "2" -> "b")
+  x: scala.collection.immutable.Map[java.lang.String,java.lang.String] = Map(1 -> a, 2 -> b)
+
+  scala> import spray.json._
+  import spray.json._
+
+  scala> import DefaultJsonProtocol._ // !!! IMPORTANT, else `convertTo` and `toJson` won't work correctly
+  import DefaultJsonProtocol._
+
+  scala> x.toJson.prettyPrint
+  res0: String = 
+  {
+    "1": "a",
+    "2": "b"
+  }
+
+  scala> import java.io._
+  import java.io._
+
+  scala> val file = new File("test.json")
+  file: java.io.File = test.json
+
+  scala> val buff = new BufferedWriter
+  BufferedWriter   
+
+  scala> val buff = new BufferedWriter(new FileWriter(file))
+  buff: java.io.BufferedWriter = java.io.BufferedWriter@6f84cdab
+
+  scala> buff.write(x.toJson.prettyPrint)
+
+  scala> buff.close()
+  \end{lstlisting}
+
+  Now to check everything went smoothly:
+
+  \begin{lstlisting}[style=bash]
+  $ cat test.json 
+  {
+    "1": "a",
+    "2": "b"
+  }
+  \end{lstlisting}
+
+
+\subsection(Print a list to screen)
+
+This shows how to either print and entire list with \code{foreach}, or
+just a few elements, with \code{take}.
+
+\begin{lstlisting}[style=bash]
+scala> val x = List((1,2), (2,3), (3,4))
+x: List[(Int, Int)] = List((1,2), (2,3), (3,4))
+
+scala> x.foreach(println)
+(1,2)
+(2,3)
+(3,4)
+
+scala> x.take(2).foreach(println)
+(1,2)
+(2,3)
+\end{lstlisting}

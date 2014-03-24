@@ -1,0 +1,91 @@
+\chapter{Python}
+
+\subsection{Python Interpreter Hello World}
+Open your terminal, type \bash{python} and then \py{print("Hello, World!")}.
+
+That's a bit too easy. Let's instead run
+\begin{lstlisting}[style=bash]
+$ python
+Python 2.7.5 (v2.7.5:ab05e7dd2788, May 13 2013, 13:18:45) 
+[GCC 4.2.1 (Apple Inc. build 5666) (dot 3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> x = "Hello, World!"
+>>> print(x)
+Hello, World!
+>>> print(x + x)
+Hello, World!Hello, World!
+>>> print(5 * x)
+Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!
+>>> print(5 * (x + "\n"))
+Hello, World!
+Hello, World!
+Hello, World!
+Hello, World!
+Hello, World!
+\end{lstlisting}
+
+Notice that you can assign strings to a variable, and manipulate strings using 
+addition in multiplication (and it works in a sane fashion).  The \code{\textbackslash n}
+string is a newline.  The other useful character to know for now is 
+\code{\textbackslash t}, which is a tab.
+To quit the console, \code{ctrl+d} or \py{quit()}.  
+
+\section{Cookbook}
+
+\subsection{Serving files over a web server}\label{subsec:pyhttpserver}
+This sounds intimidating, but you can literally go to any folder on your
+machine and run \code{python -m SimpleHTTPServer 8080}.  Then if you open
+a browser and navigate to \href{localhost:8080}{localhost:8080}, you will see 
+all the files in your original folder.
+
+\subsection{Serving a simple website with Flask, and Returning a 
+list as JSON from a Flask app}\label{subsec:flask}
+A great setup for simple websites is 
+\href{http://flask.pocoo.org/docs/}{Flask} with bootstrap for 
+css.  While working on an app to plot JSON data in 
+\href{http://d3js.org/}{D3}, I used the following 
+
+\begin{lstlisting}[style=script]
+import random
+from flask import Flask, Response
+import json
+app = Flask(__name__)
+
+@app.route('/data')
+def random_data():
+  colors = ["red", "green", "blue"]
+  data = [{
+    "x": 10 * random.random(),
+    "y": 10 * random.random(),
+    "c": random.sample(colors, 1)[0],
+    "size": random.randint(1,5)
+    }
+    for _ in range(10)]
+  return Response(json.dumps(data), mimetype='application/json')
+
+if __name__ == '__main__':
+  app.run("127.0.0.1", port=5000, debug=True)
+\end{lstlisting}
+
+Now if I go to \code{127.0.0.1:5000/data}, I'll be served some json.  
+\code{127.0.0.1} is another name for \code{localhost} (so 
+\code{localhost:5000/data} will also do it).  Setting \code{debug=True}
+lets me edit the script and it will auto-reload, as well as gives a
+helpful error page with an interactive python terminal if something
+goes wrong.  One other small point about this: if the \code{data}
+object was a dictionary, I could have returned \code{jsonify(data)},
+(where I would also need to \code{from flask import jsonify}), but 
+\href{http://stackoverflow.com/questions/12435297/how-do-i-jsonify-a-list-in-flask}{for security reasons}
+I need to return this one myself by converting it to json, and 
+setting the proper mimetype.
+In this script, I create an \code{app} object, define one route,
+and serve json over that route.
+
+\subsection{Printing a number with commas}
+
+Check out \href{http://legacy.python.org/dev/peps/pep-3101/}{PEP 3101}
+on new string formatting.  \code{"\$\{:,d\}".format(10 ** 9)} outputs
+the string \code{'\$1,000,000,000'}.  The \code{\{\ldots\}} indicates that there
+is something to be replaced, you can put a key (in this case \code{0}) before
+the colon to decide what will be replaced, the \code{d} says the object is an
+integer, and the \code{,} says to add commas every third digit.

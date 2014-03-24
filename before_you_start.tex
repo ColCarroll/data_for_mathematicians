@@ -1,0 +1,79 @@
+\chapter{Before You Start}
+
+\section{Before You Start}
+We'll be moving mostly without a mouse. It is terrible at first, but pays dividends.
+If you are using Ubuntu you can get to a terminal with \code{ctrl+alt+T}. On OSX,
+use \code{cmd + space} to open spotlight, type in ``terminal'', then hit 
+enter. I'll give some pointers to the most important commands to 
+know in the terminal. Some important ones to start:
+
+\begin{enumerate}
+  \item \bash{ls} lists the files in the current directory
+  \item \bash{cd directory} changes your directory to \code{directory}
+    (if it exists).
+  \item The up/down keys scroll through recent commands
+  \item \code{tab} will autocomplete when it can. Sometimes you need to 
+    hit it twice and it will give you options
+  \item \code{ctrl+r} Gives you reverse search in the terminal, letting 
+    you type in a few letters. Hitting \code{ctrl+r} more scrolls 
+    backwards in these options, and \code{ctrl+g} cancel your search.
+\end{enumerate}
+
+\section{Setting up and navigating a development environment from the command 
+  line}
+If you can use an Ubuntu box, it will be much easier to set everything up, but 
+it isn't terrible on OS X, either. In general, the better you can find your 
+question on \href{http://stackoverflow.com/}{Stack Overflow}, the better you'll do
+longterm, so check there early and often if you run into trouble.
+
+We'll be using a few different terminals, and when you are meant to actively 
+type something, I will try to copy the prompt: bash (my terminal) uses 
+\bash{}, Python uses \py{} and R uses \R{}. Code with no prefix will be a 
+\code{message printed back to you}.
+
+Go to the appropriate section to set up your own environment for general 
+purpose processing.
+\subsection{Ubuntu}
+We'll be using Ubuntu 12.04.  On Ubuntu, you get the 
+\href{https://help.ubuntu.com/10.04/serverguide/apt-get.html}{Advanced Packaging Tool},
+which we invoke with \bash{apt-get}.  We'll install a 
+few other utilities off the bat:
+\begin{description}
+  \item[Get git] Start with\bash{sudo apt-get install git}.
+Typing \bash{git} should now output something reasonable. Bad news if you see 
+\code{-bash: git: command not found}, and you'll have to do some research to fix
+this. 
+  \item[Get python]Already built in -- I'd just use theirs.
+  \item[Get R] We want 3.0.2, and for this we need to add their repository 
+  before we can \code{apt-get} R. Check out 
+  \href{http://cran.r-project.org/bin/linux/ubuntu/README}{this page} for 
+  good information.
+\end{description}
+
+\subsection{OSX}
+\begin{description}
+  \item[Get Homebrew.] Instead of \code{apt-get}, we'll use 
+  \href{http://brew.sh/}{Homebrew}. OS X ships with ruby, so you should be able 
+  to copy/paste the command at the Homebrew website with no problem.
+  \item[Get git] Now we can run
+  \bash{brew install git}.  Typing \bash{git} should now output something 
+  reasonable. Bad news if you see \code{-bash: git: command not found},
+  and you'll have to do some \href{http://stackoverflow.com}{research}
+  to fix this. 
+  \item[Get python] Python is already built into OS X (open your terminal and 
+  type \bash{python} to start hacking away), but you want a different version of
+  Python.  Luckily, this is nice \bash{brew install python}.  This will install 
+  Python 2.7.6, which is what we'll be using. 
+  There are many discussions about Python 2 vs Python 3.  We follow the advice of
+  \href{http://stackoverflow.com/questions/11938786/new-project-python-2-or-python-3}{this one},
+  and use Python2 while writing code that will be Python3 compatible.  The main 
+  differences are that division is no longer integer division (in python2, 
+  \py{3/4 = 0}, in python3 \py{3/4 = 0.75} but \py{3//4 = 0}), more objects are
+  \href{http://www.jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/}{generators},
+  and the \code{print} function is invoked like a function. Python 3.4 was just 
+  released, but \bash{brew install python3} will still install Python 3.3.3. Use
+  at your own (minimal) risk.
+  \item[Get R] As usual, \bash{brew install R} installs a good version of R 
+  (I am on 3.0.2).
+\end{description}
+

@@ -1,0 +1,242 @@
+\chapter{R}
+\subsection{R Interpreter Hello World}
+Happily, we may again type \bash{R}, and \R{print("Hello, World!")}.
+We can't run exactly the same session as we did in Python, since R doesn't let us
+mix algebra and strings quite as nicely, but there are equivalents.
+
+\begin{lstlisting}[style=bash]
+$ R
+
+R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin10.8.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> x <- "Hello, World!"
+> print(x)
+[1] "Hello, World!"
+> print(paste(x,x))
+[1] "Hello, World! Hello, World!"
+> print(paste(rep(x, 5), collapse=""))
+[1] "Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!"
+> cat(paste(rep(x, 5), collapse="\n"))
+Hello, World!
+Hello, World!
+Hello, World!
+Hello, World!
+Hello, World!> 
+\end{lstlisting}
+A few things to note about this:
+\begin{enumerate}
+\item We use the \code{paste} function to concatenate strings.
+\item The \code{rep(x, 5)} created a vector with five copies of \code{x}. We 
+  could have done this by hand with \R{c(x, x, x, x, x)}.  More on R vectors
+  later.
+\item The \code{paste} function accepts a \code{collapse} argument, which tells 
+  it how to join a vector of strings.
+\item In the last command, we used \code{cat} instead of \code{paste}.  The
+  \code{paste} function would print ``\textbackslash n'', while the \code{cat} function
+  interprets these as newlines.  
+\item The \code{cat} function doesn't automatically put a newline after it 
+  does its thing, which is why the interpreter starts typing after the last
+  ``Hello, World!''
+\end{enumerate}
+
+
+\section{Tools for using R}
+
+R has some fantastic support for getting up and working quickly and easily.  A 
+few ways to help get hacking:
+
+\begin{description}
+\item[Defining variables.] R uses the symbol \code{<-} instead of \code{=}.  
+  Using \code{=} will still work (see 
+  \href{http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html}{this article}
+  if you're interested), but it is typically reserved for setting function
+  arguments.
+\item[Using Packages]  You can import R code in a number of ways.  I just use
+  \R{require(ggplot2)} to import, for example, ggplot2.  You could also use
+  \R{library(ggplot2)}, with 
+  \href{http://stackoverflow.com/questions/5595512/what-is-the-difference-between-require-and-library}{almost identical}
+  results.  If I am importing a local file, use 
+  \R{source('../relative/path/to/myfile.R')}.  Note that with this, you can run
+  code, assign values to variables, and define functions.  A good workflow
+  is to have an interactive console open, figure out how to make R do what
+  you want to do, copy that over to a file, and \code{source} the file.
+\item[Installing Packages.] A great strength of R is that it has some cutting
+  edge packages available.  These are uploaded to CRAN, the ``Comprehensive
+  R Archive Network'', which is ``a network of ftp and web servers around the 
+  world that store identical, up-to-date, versions of code and documentation for
+  R''.  The majority of packages you'll want are installed
+  via \R{install.packages("ggplot2")}.  You'll be asked to choose a mirror, 
+  and typically the best will be the 
+  \href{http://blog.rstudio.org/2013/06/10/rstudio-cran-mirror/}{cloud mirror}
+  that RStudio maintains on an Amazon EC2 instance -- number 0.  It syncs
+  with the central CRAN mirror in Austria once a day, and is typically beats
+  any other mirror for speed (in Austin, the cloud mirror is faster than using
+  the mirror in Dallas). 
+
+  Occasionally, you'll want something really cutting edge that you find on 
+  github.  There's a nice package from 
+  \href{had.co.nz}{Hadley Wickham} that makes this easy:
+
+  \begin{lstlisting}[style=bash]
+  > require(devtools)
+  Loading required package: devtools
+  > install_github('ggplot2')
+  Installing github repo ggplot2/master from hadley
+  Downloading ggplot2.zip from https://github.com/h...
+  Installing package from /var/folders/k1/3qh0v1017...
+  arguments 'minimized' and 'invisible' are for Win...
+  Installing ggplot2
+  '/Library/Frameworks/R.framework/Resources/bin/R'...
+    '/private/var/folders/k1/3qh0v1017ql8p4xm7hqzv_...
+    --library='/Users/colinc/Library/R/3.0/library'...
+
+  * installing *source* package 'ggplot2' ...
+  ** R
+  ** data
+  *** moving datasets to lazyload DB
+  ** inst
+  ** tests
+  ** preparing package for lazy loading
+  ** help
+  *** installing help indices
+  ** building package indices
+  ** testing if installed package can be loaded
+  * DONE (ggplot2)
+  > require(ggplot2)
+  Loading required package: ggplot2
+  > sessionInfo()
+  R version 3.0.2 (2013-09-25)
+  Platform: x86_64-apple-darwin10.8.0 (64-bit)
+
+  locale:
+  [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+  attached base packages:
+  [1] stats     graphics  grDevices utils    
+  [5] datasets  methods   base     
+
+  other attached packages:
+  [1] ggplot2_0.9.3.1.99 devtools_1.4.1    
+
+  loaded via a namespace (and not attached):
+   [1] colorspace_1.2-4   dichromat_2.0-0   
+   [3] digest_0.6.4       evaluate_0.5.1    
+   [5] grid_3.0.2         gtable_0.1.2      
+   [7] httr_0.2           labeling_0.2      
+   [9] MASS_7.3-29        memoise_0.1       
+  [11] munsell_0.4.2      parallel_3.0.2    
+  [13] plyr_1.8           proto_0.3-10      
+  [15] RColorBrewer_1.0-5 RCurl_1.95-4.1    
+  [17] reshape2_1.2.2     scales_0.2.3      
+  [19] stringr_0.6.2      tools_3.0.2       
+  [21] whisker_0.3-2     
+  > 
+  \end{lstlisting}
+  Note the use of \R{sessionInfo()} at the end to view all the attached
+  packages and their versions.
+
+
+\item[Getting help.] It is notoriously difficult to google for help with 
+  R, given its name (though, really, who hasn't come up with unexpected 
+  results while searching for help with \LaTeX, Python, or Ruby?  I've even
+  heard a story of a trip to manpages.com in search of bash help.) The built-in
+  R help pages are accessed via \code{?}, and are actually quite helpful.
+
+  Note that \code{?} will only search packages which are currently loaded.  
+  Try the following session:
+
+  \begin{lstlisting}[style=bash]
+  > ?geom_point
+  No documentation for ‘geom_point’ in specified packages and libraries:
+  you could try ‘??geom_point’
+  > require(ggplot2)
+  Loading required package: ggplot2
+  > ?geom_point 
+  \end{lstlisting}
+
+  The suggestion to use \code{??} is also a good one: when I type it in, I see
+
+  \begin{lstlisting}[style=bash]
+  Help files with alias or concept or title
+  matching ‘geom_point’ using regular
+  expression matching:
+
+
+  ggplot2::geom_point
+                 Points, as for a scatterplot
+  ggplot2::geom_pointrange
+                 An interval represented by a
+                 vertical line, with a point
+                 in the middle.
+
+
+  Type '?PKG::FOO' to inspect entries
+  'PKG::FOO', or 'TYPE?PKG::FOO' for entries
+  like 'PKG::FOO-TYPE'.
+
+
+
+
+  (END) 
+  \end{lstlisting}
+  This command has searched through all \emph{installed}, not necessarily loaded,
+  packages.  If you see a sweet function on a blog post and want to find which 
+  package it is in, you need to either go to google,
+  \href{http://www.rseek.org/}{RSeek},
+  \href{http://crantastic.org/}{crantastic},
+  or use the \code{sos} package:
+
+  \begin{lstlisting}[style=bash]
+  > install.packages('sos')
+  Installing package into ‘/Users/colinc/Library/R/3.0/library’
+  (as ‘lib’ is unspecified)
+  --- Please select a CRAN mirror for use in this session ---
+  trying URL 'http://cran.rstudio.com/bin/macosx/contrib/3.0/sos_1.3-8.tgz'
+  Content type 'application/x-gzip' length 213172 bytes (208 Kb)
+  opened URL
+  ==================================================
+  downloaded 208 Kb
+
+
+  The downloaded binary packages are in
+    /var/folders/k1/3qh0v1017ql8p4xm7hqzv_3m84fy03/T//Rtmp3Dpn1e/downloaded_packages
+  > require(sos)
+  Loading required package: sos
+  Loading required package: brew
+
+  Attaching package: ‘sos’
+
+  The following object is masked from ‘package:utils’:
+
+      ?
+
+  > findFn('geom_point')
+  found 197 matches;  retrieving 10 pages
+  2 3 4 5 6 7 8 9 10 
+
+  Downloaded 175 links in 50 packages.
+  >
+  \end{lstlisting}
+
+This creates a local website with links to all the packages that you might find
+\code{geom\_point} in.  
+
+\end{description}
+
+

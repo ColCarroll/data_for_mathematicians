@@ -1,0 +1,54 @@
+\section{Algorithms}
+
+\section{Sorting}
+Here is a summary of sorting algorithms
+
+
+\begin{tabular}{|p{15mm}||c c c c c p{2.5cm}|}
+\hline
+& in-place? & stable? & worst & average & best & remarks\\
+\hline \hline
+Selection & $\times$ & & $\frac{N^2}{2}$ & $\frac{N^2}{2}$ & $\frac{N^2}{2}$ & $N$ exchanges \\
+Insertion & $\times$ & $\times$ & $\frac{N^2}{2}$ & $\frac{N^2}{4}$ & $N$ & Use for small $N$ or partially ordered \\
+Shell & $\times$ &  & ? & ? & $N$ & Tight code, subquadratic \\
+Quick & $\times$ & & $\frac{N^2}{2}$ & $2N \ln N$ & $N \lg N$ & $N \log N$ probabilistic guarantee fastest in practice \\
+3-way quick & $\times$ & & $\frac{N^2}{2}$ & $2N \ln N$ & $N$ & Improves quicksort in presence of duplicate keys \\
+Merge& & $\times$ & $N \lg N$ & $N \lg N$ & $N \lg N$ & $N \log N$ guarantee, stable \\
+Heap& $\times$ & & $2 N \lg N$ & $2 N \lg N$ & $N \lg N$ & $N \log N$ guarantee, in-place \\
+\hline
+\end{tabular}
+
+\subsection{Dictionary}
+
+\begin{description}
+\item[in-place] This concerns memory usage: an in-place sort does not use a 
+second array to do the sort.
+
+\item[stable] This concerns composed sorts: if we had an array 
+\code{[(a, 1), (a, 2), (b, 1)]} which is already sorted with 
+respect to the first element in each tuple, an algorithm is stable
+if it guarantees that sorting with respect to the second key will
+return \code{[(a, 1), (b, 1), (a, 2)]}, instead of moving \code{(b, 1)}
+to the front.
+\end{description}
+
+\subsection{Algorithms}
+
+\subsubsection{Selection Sort}
+
+We iterate through the array, find the next smallest, and move that to the start
+of the list.
+
+\subsection{Insertion Sort}
+
+At each step along the array, we compare an entry with the neighbor to its left,
+and exchange the two if they are out of order.
+
+\subsection{Shell Sort}
+Like insertion sort, but use different gap sequences: perhaps compare each
+element with the neighbor 7 to its left first, then use a gap of 3, and 
+finally 1.  Wikipedia 
+\href{http://en.wikipedia.org/wiki/Shellsort#Gap_sequences}{reports}
+that a practical gap of $\lceil \frac{9^k - 4^k}{5 \cdot 4^{k - 1}} \rceil$,
+which looks like $1, 4, 9, 20, 46, 103, \ldots$, is good. I have no intuition
+for why.

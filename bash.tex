@@ -1,0 +1,30 @@
+\chapter{Bash}
+
+\section{Cookbook}
+
+
+\subsection{Count files in a folder.}
+
+If you have a lot of files in a folder, \bash{ls -1} (that's the numeral 1)
+will list the files in the folder, one to a line, without a header.  This
+is piped to a word count of lines.
+
+
+\bash{ls -1 | wc -l}
+
+
+\subsection{View head of gzipped file}
+
+Use \code{gzip}, with the \code{-c} flag to output to \code{stdout}, and 
+\code{-d} to decompress (instead of compress).  This can be piped to head.
+
+\bash{gzip -cd | head}
+
+
+\subsection{Dealing with corrupt gzips}
+
+Sometimes a process will be consuming a bunch of gzips and it will
+fail for some reason (this happened to me with an
+\code{unexpected end of file} error). To find the files that may fail,
+run \bash{gzip -t}. To recover what part of the gzip you can recover,
+\bash{gunzip < corrupted.gz > corrupted.partial}
