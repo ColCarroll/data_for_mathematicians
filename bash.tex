@@ -28,3 +28,12 @@ fail for some reason (this happened to me with an
 \code{unexpected end of file} error). To find the files that may fail,
 run \bash{gzip -t}. To recover what part of the gzip you can recover,
 \bash{gunzip < corrupted.gz > corrupted.partial}
+
+\subsection{Search for code snippets}
+
+If you have just a few files, \code{grep} can be a great choice, but
+if you're searching through a bigger directory, and know what you're
+looking for is in (say) a Python file, use 
+\bash{grep -r -i --include \*.py "import re" *}
+\code{-r} is recursive, so it looks in sub folders, \code{-i} is case
+insensitive, \code{--include} says which files to search.
